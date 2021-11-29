@@ -24,9 +24,9 @@ PUB_KEY = ""
 UPTIME = []
 COMMITS = [0, 0, 0]  # missed, signed, propossed
 
-if REST == '' or not RPC == '':
-    print('Unconfigured. Check config.py Exit')
-    exit(1)
+# if REST == '' or not RPC == '':
+#     print('Unconfigured. Check config.py Exit')
+#     exit(1)
 
 
 def tg_message(data):
