@@ -25,7 +25,7 @@
   #### Technically, the installation itself is cloning the repo, setting dependencies, and providing 6 variables
 
 ```sh
-$ cd && git clone https://github.com/Northa/cosmosvanity.git && cd cosmosvanity
+$ cd && git clone https://github.com/Northa/lion.git && cd lion
 $ sudo apt install python3-pip
 $ pip3 install pipenv
 $ pipenv sync
