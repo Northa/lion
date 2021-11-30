@@ -186,9 +186,15 @@ def find_pub(VALIDATOR_ADDR, block=None, page=1):
             if VALIDATOR_ADDR == val['address']:
                 PUB_KEY = val['pub_key']['value']
                 return PUB_KEY
+
         if page == 2:
-            raise Exception(f"Can't find pub_key for {VALIDATOR_ADDR} address!")
-        return get_val_addr_pubkey(VALIDATOR_ADDR, block, 2)
+            return f"Can't find pub_key! Val can be jailed!"
+
+        if int(response['total']) > 100 and page == 1:
+            return find_pub(VALIDATOR_ADDR, block, 2)
+
+        return f"Can't find pub_key! Val can be jailed!"
+
     return PUB_KEY
 
 
@@ -212,9 +218,13 @@ def get_vp(VALIDATOR_ADDR, block=None, page=1):
         if VALIDATOR_ADDR == val['address']:
             return f"[green]{val['voting_power']}"
 
+    if int(response['total']) > 100 and page == 1:
+        return get_vp(VALIDATOR_ADDR, block, 2)
+
     if page == 2:
-        return f"[bold red][blink]Can't find! Check validator!"
-    return get_val_addr_pubkey(VALIDATOR_ADDR, block, 2)
+        return f"[bold red][blink]0 Check VAL!"
+
+    return f"[bold red][blink]0 Check VAL!"
 
 
 def main():
@@ -227,6 +237,7 @@ def main():
     rewards = get_rewards()
     total_vals = handle_request(RPC, "validators")['total']
     used_mem, load_avg, memory, disk_usage = system_info()
+    power = get_vp(VALIDATOR_ADDR)
 
     inflation = float(get_inflation()) * 100
 
@@ -248,7 +259,7 @@ def main():
             f"Load avg": load_avg,
             f"Disk": disk_usage,
             f"Memory": f"{used_mem} / {memory}",
-            f"Jailed": f"[green]False" if f"{status['validator_info']['voting_power']}" != '0' else f"[bold red][blink]True",
+            f"Jailed": f"[green]False" if 'green' in f"{power}" else f"[bold red][blink]True",
             f"Inflation": f"{inflation:.2f}%",
             f"Mempool": f"{float(unconfirmed_txs['total_bytes'])/1000:.2f}Kb",
             f"unconfirmed_txs": unconfirmed_txs['n_txs'],
@@ -258,7 +269,7 @@ def main():
         },
 
         "footer_layout": {
-            f"VP": get_vp(VALIDATOR_ADDR),
+            f"VP": power,
             f"Catching_up": f"[green]{status['sync_info']['catching_up']}",
             f"Active_vals": f"{total_vals}",
             f"height": f"{status['sync_info']['latest_block_height']} ",
@@ -287,6 +298,9 @@ def peggy_main():
 
 
 if __name__ == '__main__':
+    if config['REST'] == '' and config['RPC'] == '':
+        print('Unconfigured. Check config.py Exit')
+        exit(1)
     with Live(layout, screen=True, redirect_stderr=False, refresh_per_second=1) as live:
         try:
             while True:
