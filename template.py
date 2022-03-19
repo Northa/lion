@@ -12,54 +12,38 @@ layout = Layout()
 
 
 def layout_info(data) -> Panel:
-    """Some example content."""
-    sponsor_message = Table.grid(padding=1)
-    sponsor_message.add_column(justify="right", style="dim")
-    sponsor_message.add_column(no_wrap=True)
-    for key, value in data['layout_info'].items():
-        sponsor_message.add_row(f"{key}", f"[yellow]{value}")
+    message = Table.grid(padding=1)
+    message.add_column(justify="left", style="dim")
+    message.add_column(no_wrap=True)
+
+    if 'layout_info' in data:
+        for key, value in data['layout_info'].items():
+            message.add_row(f"{key}", f"[yellow]{value}")
+
+        if 'Server IP' not in data['layout_info']:
+            title = data['layout_info']['Moniker']
+        else:
+            title = f"[b red]{data['layout_info']['Server IP']}"
+
+    if 'bridge_chain' in data:
+        title = f"[b red]PEGGO module stats"
+        for key, value in data.items():
+            message.add_row(f"{key}", f"[yellow]{value}")
 
     message_panel = Panel(
         Align.center(
-            Group(Align.center(sponsor_message)),
+            Group(Align.center(message)),
             vertical="middle"
         ),
         box=box.ROUNDED,
         padding=(1, 2),
-        title=f"[b red]{data['layout_info']['Server IP']}",
-        border_style="bright_blue",
-    )
-    return message_panel
-
-
-def layout_peggy(data) -> Panel:
-    """Some example content."""
-    sponsor_message = Table.grid(padding=1)
-    sponsor_message.add_column(justify="left", style="dim")
-    sponsor_message.add_column(no_wrap=True)
-    for key, value in data.items():
-        sponsor_message.add_row(f"{key}", f"[yellow]{value}")
-
-    message_panel = Panel(
-        Align.center(
-            Group(Align.center(sponsor_message)),
-            vertical="middle"
-        ),
-        box=box.ROUNDED,
-        padding=(1, 2),
-        title=f"[b red]PEGGY module state stats",
+        title=title,
         border_style="bright_blue",
     )
     return message_panel
 
 
 def layout_body(uptime):
-    # block, response = get_uptime()
-    # # count = response.count(VALIDATOR_ADDR)
-    # status = '[magenta]✗ ', '[green]✓ ', '[cyan]:rocket: '
-    # count = response.count(VALIDATOR_ADDR)
-    # if f"{status[count]}{block}" not in UPTIME:
-    #     UPTIME.append(f"{status[count]}{block}")
 
     tables = []
 
@@ -73,7 +57,6 @@ def layout_body(uptime):
 
         table.add_row(i)
         tables.append(Align.center(table))
-    # table.add_row(f"test {UPTIME[-1]}")
 
     columns = Columns(reversed(tables), padding=0, expand=True, align='center')
 
@@ -84,21 +67,33 @@ layout.split(
     Layout(name="header", size=1),
     Layout(ratio=1, name="main"),
     Layout(size=5, name="footer"),
-    # Layout(size=5, name="footer1"),
 )
 
 layout["main"].split_row(Layout(name="INFO"), Layout(name="body", ratio=2))
+layout["INFO"].split_column(Layout(name="val_info", ratio=4), Layout(name="delegator_txs"))
 layout["footer"].split_row(
     Layout(name="HEIGHT"),
     Layout(name="Voting_Power"),
+    Layout(name="BOND_STATUS"),
     Layout(name="Catching_up"),
     Layout(name="Peers"),
     Layout(name="Active_vals"),
+    Layout(name="Block_counter"),
+    Layout(name="Active_proposals"),
     Layout(name="Rewards"),
 )
 
-layout['body'].split_row(Layout(name='colored_blocks'), Layout(name='peggy'))
-# layout['body'].split_row(Layout(name='colored_blocks'))
+layout['body'].split_row(Layout(name='colored_blocks'), Layout(name='peggo'))
+
+layout['colored_blocks'].split_column(
+    Layout(name="blocks", ratio=4),
+    Layout(name="umee_orch_txs")
+)
+
+layout['peggo'].split_column(
+    Layout(name="peggo_state", ratio=4),
+    Layout(name="etherscan_txs")
+)
 
 
 class Clock:

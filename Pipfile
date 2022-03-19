@@ -7,6 +7,8 @@ name = "pypi"
 prometheus-client = "==0.12.0"
 requests = "==2.26.0"
 rich = "==10.12.0"
+timeago = "*"
+aiohttp = "*"
 
 [dev-packages]
 
