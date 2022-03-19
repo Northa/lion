@@ -14,9 +14,37 @@
 * peggo events
 
 
-#### For the correct work of the application you should configure RPC :26657 and REST :1317 endpoints
 
-##### ex: http://8.8.8.8:26657, http://8.8.8.8:1317
+#### Alerts:
+  
+  * Ethereum balance < 0.1 ETH  
+  ![Alt text](https://github.com/Northa/lion/blob/main/screen/eth_balance.png?raw=true "ETH bal")
+  * If our event_nonce behind more than 3  
+  ![Alt text](https://github.com/Northa/lion/blob/main/screen/event_nonce.png?raw=true "Event nonce")
+  * ETH rpc monitor. If local rpc behind infura more than 5 blocks  
+  ![Alt text](https://github.com/Northa/lion/blob/main/screen/eth_rpc.png?raw=true "rpc")
+  * Disk space monitor. If available disk < 10gb  
+  ![Alt text](https://github.com/Northa/lion/blob/main/screen/available_disk.png?raw=true "disk")
+  * Jailed status changed  
+  ![Alt text](https://github.com/Northa/lion/blob/main/screen/jailed.png?raw=true "jailed")
+  * Validator missing blocks  
+  ![Alt text](https://github.com/Northa/lion/blob/main/screen/missed.jpg?raw=true "blocks")
+  * Bond status changed  
+  ![Alt text](https://github.com/Northa/lion/blob/main/screen/bond_status.png?raw=true "bond")
+
+
+<details>
+  <summary>Requirements:</summary>
+  
+  *  Ubuntu 20.04 
+  *  python3.8 
+  *  pip3 
+  *  pipenv
+  *  For the correct work of the application you should configure RPC :26657 and REST :1317 endpoints. For example:  
+  http://8.8.8.8:26657 and http://8.8.8.8:1317
+  
+  
+</details>
 
 
 <details>
@@ -31,7 +59,7 @@ $ pip3 install pipenv
 $ pipenv sync
 
 ```
-  Next open config.py in editor and replace required variables with your values.
+  Next open ```config.py``` in editor and replace required variables with your values.
   
   Once configured you can run the app by following:
   
