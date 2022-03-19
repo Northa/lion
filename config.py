@@ -1,25 +1,15 @@
 config = {
-    "RPC": "",
-
-    "REST": "",
-
-    "VALIDATOR_ADDR": "",
-
-    "VALOPER": "",
-
-    "DELEGATOR": "",
-
-    "VALCONS": "",
-
-    "NODE_EXPORTER_URL": "",
-
-    "ETH_RPC": "",
-
-    "TELEGRAM_TOKEN": "",
-
-    "TELEGRAM_CHAT_ID": "",
-
-    "ETHERSCAN_API_KEY": "",
+    "RPC":                  "",
+    "REST":                 "",
+    "VALIDATOR_ADDR":       "",
+    "VALOPER":              "",
+    "DELEGATOR":            "",
+    "VALCONS":              "",
+    "NODE_EXPORTER_URL":    "",
+    "ETH_RPC":              "",
+    "TELEGRAM_TOKEN":       "",
+    "TELEGRAM_CHAT_ID":     "",
+    "ETHERSCAN_API_KEY":    "",
 }
 
 
