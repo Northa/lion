@@ -537,7 +537,7 @@ async def get_last_event_nonce():
             await tg_allert_message(f'Event_nonce allert:\nLast own_event_nonce: {own_event_nonce} \n 5 random events: {orch_event_list}')
             return f"{own_event_nonce} / {orch_event_list}"
 
-        return f"{own_event_nonce} / {orch_event_list} / {len(ORCHESTRATORS)}"
+        return f"{own_event_nonce} / {orch_event_list}"
 
     except Exception as err:
         return f"[ERR] get_last_event_nonce {err}"
@@ -606,6 +606,7 @@ async def peggo_main():
             break
         else:
             data['power'] = "[bold red]Can't find! Check peggo valset!"
+    data['Made by Yep++'] = "[link=https://github.com/Northa/lion][i]Check for updates[/i] [yellow][/]"
 
     layout['peggo_state'].update(layout_info(data))
 
